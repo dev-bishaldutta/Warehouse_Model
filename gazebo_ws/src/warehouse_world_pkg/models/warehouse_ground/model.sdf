@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<sdf version="1.10">
+  <!-- 
+    =========================================================================
+    === UPDATED GROUND MODEL ================================================
+    =========================================================================
+    * Size changed from 100x100 to 40x30 to match the new world size.
+    * Material changed from grey concrete to a solid coffee/brown color.
+    =========================================================================
+  -->
+  <model name="warehouse_ground">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <!-- *** MODIFIED SIZE *** -->
+            <size>40 30</size>
+          </plane>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+             <!-- *** MODIFIED SIZE *** -->
+            <size>40 30</size>
+          </plane>
+        </geometry>
+        <!-- *** MODIFIED MATERIAL FOR BROWN/COFFEE COLOR *** -->
+        <material>
+          <!-- RGB values for a brown color (0.54, 0.27, 0.07) -->
+          <ambient>0.54 0.27 0.07 1</ambient> <!-- Darker brown for ambient -->
+          <diffuse>0.54 0.27 0.07 1</diffuse> <!-- Main brown color -->
+          <specular>0.1 0.1 0.1 1</specular> <!-- Low shininess -->
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

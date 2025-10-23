@@ -1,0 +1,424 @@
+<?xml version="1.0"?>
+<sdf version="1.10">
+  <world name="Advanced_Robotic_Warehouse">
+
+    <!-- 
+      =========================================================================
+      === UPDATED WORLD: V5 - Removed Invalid Gables ==========================
+      =========================================================================
+      * Confirmed N-S roof peak (slopes in X).
+      * Confirmed N/S walls are the "gable end" walls.
+      * Removed the invalid <mesh> models ("east_gable", "west_gable") 
+        which were causing the world to fail to load.
+      * All 4 walls are now 5m high. This removes the "wall poking
+        through" issue and all loading errors. This will leave a
+        triangular gap on the N/S ends, which is the correct
+        behavior without using external mesh files.
+      =========================================================================
+    -->
+
+    <!-- === 1. CORE SIMULATION & SCENE SETUP === -->
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
+    <plugin name='gz::sim::systems::Contact' filename='gz-sim-contact-system'/>
+    <plugin name='gz::sim::systems::Sensors' filename='gz-sim-sensors-system'>
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <gravity>0 0 -9.8</gravity>
+    <atmosphere type='adiabatic'/>
+    
+    <!-- === 2. SCENE & LIGHTING === -->
+    <scene>
+      <ambient>0.4 0.4 0.4 1.0</ambient>
+      <background>0.5 0.5 0.5 1</background>
+      <shadows>true</shadows>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+    </scene>
+
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Sky</uri>
+    </include>
+    
+    <!-- Distributed overhead lights -->
+    <light type="point" name="light_1_1"><pose>-15 10 8 0 0 0</pose><diffuse>0.8 0.8 0.7 1</diffuse><specular>0.1 0.1 0.1 1</specular><attenuation><range>30</range><linear>0.01</linear><constant>0.2</constant><quadratic>0.002</quadratic></attenuation><cast_shadows>false</cast_shadows></light>
+    <light type="point" name="light_1_2"><pose>0 10 8 0 0 0</pose><diffuse>0.8 0.8 0.7 1</diffuse><specular>0.1 0.1 0.1 1</specular><attenuation><range>30</range><linear>0.01</linear><constant>0.2</constant><quadratic>0.002</quadratic></attenuation><cast_shadows>false</cast_shadows></light>
+    <light type="point" name="light_1_3"><pose>15 10 8 0 0 0</pose><diffuse>0.8 0.8 0.7 1</diffuse><specular>0.1 0.1 0.1 1</specular><attenuation><range>30</range><linear>0.01</linear><constant>0.2</constant><quadratic>0.002</quadratic></attenuation><cast_shadows>false</cast_shadows></light>
+    <light type="point" name="light_2_1"><pose>-15 0 8 0 0 0</pose><diffuse>0.8 0.8 0.7 1</diffuse><specular>0.1 0.1 0.1 1</specular><attenuation><range>30</range><linear>0.01</linear><constant>0.2</constant><quadratic>0.002</quadratic></attenuation><cast_shadows>false</cast_shadows></light>
+    <light type="point" name="light_2_2"><pose>0 0 8 0 0 0</pose><diffuse>0.8 0.8 0.7 1</diffuse><specular>0.1 0.1 0.1 1</specular><attenuation><range>30</range><linear>0.01</linear><constant>0.2</constant><quadratic>0.002</quadratic></attenuation><cast_shadows>false</cast_shadows></light>
+    <light type="point" name="light_2_3"><pose>15 0 8 0 0 0</pose><diffuse>0.8 0.8 0.7 1</diffuse><specular>0.1 0.1 0.1 1</specular><attenuation><range>30</range><linear>0.01</linear><constant>0.2</constant><quadratic>0.002</quadratic></attenuation><cast_shadows>false</cast_shadows></light>
+    <light type="point" name="light_3_1"><pose>-15 -10 8 0 0 0</pose><diffuse>0.8 0.8 0.7 1</diffuse><specular>0.1 0.1 0.1 1</specular><attenuation><range>30</range><linear>0.01</linear><constant>0.2</constant><quadratic>0.002</quadratic></attenuation><cast_shadows>false</cast_shadows></light>
+    <light type="point" name="light_3_2"><pose>0 -10 8 0 0 0</pose><diffuse>0.8 0.8 0.7 1</diffuse><specular>0.1 0.1 0.1 1</specular><attenuation><range>30</range><linear>0.01</linear><constant>0.2</constant><quadratic>0.002</quadratic></attenuation><cast_shadows>false</cast_shadows></light>
+    <light type="point" name="light_3_3"><pose>15 -10 8 0 0 0</pose><diffuse>0.8 0.8 0.7 1</diffuse><specular>0.1 0.1 0.1 1</specular><attenuation><range>30</range><linear>0.01</linear><constant>0.2</constant><quadratic>0.002</quadratic></attenuation><cast_shadows>false</cast_shadows></light>
+
+    <!-- === 3. WORLD STRUCTURE === -->
+    
+    <include>
+      <uri>model://warehouse_ground</uri>
+    </include>
+
+    <!-- Walls (All 5m high) -->
+    <model name="north_wall"><static>true</static><pose>0 15 2.5 0 0 0</pose><link name="link"><collision name="collision"><geometry><box><size>40 0.5 5</size></box></geometry></collision><visual name="visual"><geometry><box><size>40 0.5 5</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
+    <model name="south_wall"><static>true</static><pose>0 -15 2.5 0 0 0</pose><link name="link"><collision name="collision"><geometry><box><size>40 0.5 5</size></box></geometry></collision><visual name="visual"><geometry><box><size>40 0.5 5</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
+    <model name="east_wall"><static>true</static><pose>20 0 2.5 0 0 1.57</pose><link name="link"><collision name="collision"><geometry><box><size>30 0.5 5</size></box></geometry></collision><visual name="visual"><geometry><box><size>30 0.5 5</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
+    <model name="west_wall"><static>true</static><pose>-20 0 2.5 0 0 1.57</pose><link name="link"><collision name="collision"><geometry><box><size>30 0.5 5</size></box></geometry></collision><visual name="visual"><geometry><box><size>30 0.5 5</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
+
+
+    <!-- Sloped Roof Panels (White) - Peak runs N-S (along Y-axis) -->
+    <model name="roof_slope_east"> 
+      <static>true</static>
+      <!-- Panel covering positive X side -->
+      <pose>10 0 6 0 0.0997 0</pose> 
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>20.1 30 0.1</size></box></geometry> 
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>20.1 30 0.1</size></box></geometry>
+          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="roof_slope_west"> 
+      <static>true</static>
+      <!-- Panel covering negative X side -->
+      <pose>-10 0 6 0 -0.0997 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>20.1 30 0.1</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>20.1 30 0.1</size></box></geometry>
+          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- *** REMOVED INVALID GABLE MODELS *** -->
+    <!-- The "west_gable" and "east_gable" models defined with <mesh> 
+         were invalid SDF and caused the world to fail. They have been deleted.
+         All walls are now 5m, matching the roof eaves. -->
+
+
+    <!-- === PART 1: SHELF SECTION (6 Rows) === -->
+    <include><name>shelf_L1_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-17.5 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L1_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-17.5 0 0 0 0 1.57</pose></include>
+    <include><name>shelf_L1_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-17.5 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L1_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-16.5 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L1_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-16.5 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L1_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-16.5 -5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L2_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-13.5 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L2_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-13.5 0 0 0 0 1.57</pose></include>
+    <include><name>shelf_L2_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-13.5 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L2_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.5 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L2_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.5 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L2_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.5 -5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L3_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-9.5 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L3_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-9.5 0 0 0 0 1.57</pose></include>
+    <!-- *** FIX 1: Corrected 'https::/' typo *** -->
+    <include><name>shelf_L3_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-9.5 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L3_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-8.5 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L3_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-8.5 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L3_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-8.5 -5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R1_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>8.5 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R1_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>8.5 0 0 0 0 1.57</pose></include>
+    <include><name>shelf_R1_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>8.5 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R1_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>9.5 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R1_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>9.5 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R1_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>9.5 -5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R2_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>12.5 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R2_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>12.5 0 0 0 0 1.57</pose></include>
+    <include><name>shelf_R2_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>12.5 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R2_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>13.5 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R2_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>13.5 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R2_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>13.5 -5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R3_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>16.5 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R3_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>16.5 0 0 0 0 1.57</pose></include>
+    <include><name>shelf_R3_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>16.5 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R3_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>17.5 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R3_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>17.5 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R3_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>17.5 -5 0 0 0 -1.57</pose></include>
+
+    <!-- === PART 2: CENTRAL WORKING AREA === -->
+    <include>
+      <name>forklift_1</name>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Forklift</uri>
+      <pose>0 -10 0 0 0 -1.57</pose>
+    </include>
+    <include>
+      <name>forklift_parked_1</name>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Forklift</uri>
+      <pose>-5 12 0 0 0 0</pose>
+    </include>
+    <include>
+      <name>forklift_parked_2</name>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Forklift</uri>
+      <pose>5 12 0 0 0 3.14</pose>
+    </include>
+    <include>
+        <name>conveyor_1</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/DeliveryRobotWithConveyor</uri>
+        <pose>-2 -12 0 0 0 0</pose>
+    </include>
+    <include>
+        <name>conveyor_2</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/DeliveryRobotWithConveyor</uri>
+        <pose>0 -12 0 0 0 0</pose>
+    </include>
+    <include>
+        <name>conveyor_corner</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/DeliveryRobotWithConveyor</uri>
+        <pose>2 -12 0 0 0 0</pose>
+    </include>
+    <include>
+        <name>conveyor_3</name>
+        <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/DeliveryRobotWithConveyor</uri>
+        <pose>2 -10 0 0 0 1.57</pose>
+    </include>
+    <include><name>pallet_1</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/pallet</uri><pose>-5 -12 0 0 0 0</pose></include>
+    <include><name>pallet_2</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/pallet</uri><pose>-5 -13.5 0 0 0 0</pose></include>
+    <include><name>box_1</name><uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Cardboard%20Box</uri><pose>-2 -12 0.6 0 0 0.1</pose></include>
+    <include><name>box_2</name><uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Cardboard%20Box</uri><pose>0 -12 0.6 0 0 -0.1</pose></include>
+    <include><name>box_3</name><uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Cardboard%20Box</uri><pose>2 -10 0.6 0 0 1.57</pose></include>
+    
+    <!-- === 5. CAMERA SYSTEM === -->
+    
+    <!-- Wall Cameras (8) - Adjusted Z=4.95m (under eaves) -->
+    <model name='cam_W_N'>
+      <static>true</static>
+      <pose>-19.75 10 4.95 0 0.785 -1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_W_S'>
+      <static>true</static>
+      <pose>-19.75 -10 4.95 0 0.785 -1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_E_N'>
+      <static>true</static>
+      <pose>19.75 10 4.95 0 0.785 1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_E_S'>
+      <static>true</static>
+      <pose>19.75 -10 4.95 0 0.785 1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_N_W'>
+      <static>true</static>
+      <pose>-15 14.75 4.95 0 0.785 3.14</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_N_E'>
+      <static>true</static>
+      <pose>15 14.75 4.95 0 0.785 3.14</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_S_W'>
+      <static>true</static>
+      <pose>-15 -14.75 4.95 0 0.785 0</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_S_E'>
+      <static>true</static>
+      <pose>15 -14.75 4.95 0 0.785 0</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    
+    <!-- Aisle End Cameras (14) - Z=4m height -->
+    <model name='cam_A1_N'>
+      <static>true</static>
+      <pose>-15 12 4 0 0.785 -1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A1_S'>
+      <static>true</static>
+      <pose>-15 -12 4 0 0.785 -1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A2_N'>
+      <static>true</static>
+      <pose>-11 12 4 0 0.785 -1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A2_S'>
+      <static>true</static>
+      <pose>-11 -12 4 0 0.785 -1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A3_N'>
+      <static>true</static>
+      <pose>-7 12 4 0 0.785 -1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A3_S'>
+      <static>true</static>
+      <pose>-7 -12 4 0 0.785 -1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A4_N'>
+      <static>true</static>
+      <pose>7 12 4 0 0.785 1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A4_S'>
+      <static>true</static>
+      <pose>7 -12 4 0 0.785 1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A5_N'>
+      <static>true</static>
+      <pose>11 12 4 0 0.785 1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A5_S'>
+      <static>true</static>
+      <pose>11 -12 4 0 0.785 1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A6_N'>
+      <static>true</static>
+      <pose>15 12 4 0 0.785 1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_A6_S'>
+      <static>true</static>
+      <pose>15 -12 4 0 0.785 1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_Cen_N'>
+      <static>true</static>
+      <pose>0 12 4 0 0.785 -1.57</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_Cen_S'>
+      <static>true</static>
+      <pose>0 -12 4 0 0.785 -1.57</pose>
+      <!-- *** FIX 2: Corrected 'RGBD%2D%20Camera' typo *** -->
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    
+    <!-- Overhead Cameras (6) -->
+    <model name='cam_OH_1'>
+      <static>true</static>
+      <pose>-10 8 6.0 0 1.57 0</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_OH_2'>
+      <static>true</static>
+      <pose>10 8 6.0 0 1.57 0</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_OH_3'>
+      <static>true</static>
+      <pose>-10 0 6.0 0 1.57 0</pose>
+      <!-- *** FIX 3: Corrected '1.CSS0' typo *** -->
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_OH_4'>
+      <static>true</static>
+      <pose>10 0 6.0 0 1.57 0</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_OH_5'>
+      <static>true</static>
+      <pose>-10 -8 6.0 0 1.57 0</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    <model name='cam_OH_6'>
+      <static>true</static>
+      <pose>10 -8 6.0 0 1.57 0</pose>
+      <include>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <static>true</static>
+      </include>
+    </model>
+    
+  </world>
+</sdf>
