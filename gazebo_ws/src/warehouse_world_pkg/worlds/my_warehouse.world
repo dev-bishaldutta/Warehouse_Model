@@ -62,6 +62,214 @@
       <uri>model://warehouse_ground</uri>
     </include>
 
+    <!-- === LFR (Line Following Robot) PATHS === -->
+    <!-- Black lines on the floor for LFR navigation -->
+    <!-- Line thickness is 0.1m, height is 0.01m (to prevent z-fighting) -->
+
+    <model name="lfr_line_north">
+      <static>true</static>
+      <pose>0 8 0.01 0 0 0</pose> <!-- Main N loop (X-axis) -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>37 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>37 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="lfr_line_south">
+      <static>true</static>
+      <pose>0 -8 0.01 0 0 0</pose> <!-- Main S loop (X-axis) -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>37 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>37 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="lfr_line_west">
+      <static>true</static>
+      <pose>-18.5 0 0.01 0 0 1.5707</pose> <!-- Main W loop (Y-axis) -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="lfr_line_east">
+      <static>true</static>
+      <pose>18.5 0 0.01 0 0 1.5707</pose> <!-- Main E loop (Y-axis) -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Aisle Lines (Y-axis) -->
+    <model name="lfr_line_aisle1">
+      <static>true</static>
+      <pose>-14.2 0 0.01 0 0 1.5707</pose> <!-- Aisle between L1 & L2 -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="lfr_line_aisle2">
+      <static>true</static>
+      <pose>-9.4 0 0.01 0 0 1.5707</pose> <!-- Aisle between L2 & L3 -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="lfr_line_aisle3_main">
+      <static>true</static>
+      <pose>0 0 0.01 0 0 1.5707</pose> <!-- Central Aisle -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="lfr_line_aisle4">
+      <static>true</static>
+      <pose>9.4 0 0.01 0 0 1.5707</pose> <!-- Aisle between R1 & R2 -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="lfr_line_aisle5">
+      <static>true</static>
+      <pose>14.2 0 0.01 0 0 1.5707</pose> <!-- Aisle between R2 & R3 -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- NEW LFR Lines for inner aisles (between back-to-back shelves) -->
+    <model name="lfr_line_aisle_L1">
+      <static>true</static>
+      <pose>-16.6 0 0.01 0 0 1.5707</pose> <!-- Inner aisle for L1 shelves -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lfr_line_aisle_L2">
+      <static>true</static>
+      <pose>-11.8 0 0.01 0 0 1.5707</pose> <!-- Inner aisle for L2 shelves -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lfr_line_aisle_L3">
+      <static>true</static>
+      <pose>-7.0 0 0.01 0 0 1.5707</pose> <!-- Inner aisle for L3 shelves -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lfr_line_aisle_R1">
+      <static>true</static>
+      <pose>7.0 0 0.01 0 0 1.5707</pose> <!-- Inner aisle for R1 shelves -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lfr_line_aisle_R2">
+      <static>true</static>
+      <pose>11.8 0 0.01 0 0 1.5707</pose> <!-- Inner aisle for R2 shelves -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lfr_line_aisle_R3">
+      <static>true</static>
+      <pose>16.6 0 0.01 0 0 1.5707</pose> <!-- Inner aisle for R3 shelves -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>16 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>16 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Spurs to South conveyor/pallet area -->
+    <model name="lfr_line_conveyor_spur">
+      <static>true</static>
+      <pose>0 -10.5 0.01 0 0 1.5707</pose> <!-- Spur from S-loop (y=-8) to y=-13 -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>5 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>5 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="lfr_line_pallet_spur">
+      <static>true</static>
+      <pose>-5 -11 0.01 0 0 1.5707</pose> <!-- Spur from S-loop (y=-8) to y=-14 -->
+      <link name="link">
+        <collision name="collision"><geometry><box><size>6 0.1 0.005</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>6 0.1 0.005</size></box></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse><specular>0 0 0 1</specular></material>
+        </visual>
+      </link>
+    </model>
+    
+    <!-- === END LFR PATHS === -->
+
     <!-- Walls (All 5m high) -->
     <model name="north_wall"><static>true</static><pose>0 15 2.5 0 0 0</pose><link name="link"><collision name="collision"><geometry><box><size>40 0.5 5</size></box></geometry></collision><visual name="visual"><geometry><box><size>40 0.5 5</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
     <model name="south_wall"><static>true</static><pose>0 -15 2.5 0 0 0</pose><link name="link"><collision name="collision"><geometry><box><size>40 0.5 5</size></box></geometry></collision><visual name="visual"><geometry><box><size>40 0.5 5</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
@@ -109,37 +317,37 @@
     <include><name>shelf_L1_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-17.5 5 0 0 0 1.57</pose></include>
     <include><name>shelf_L1_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-17.5 0 0 0 0 1.57</pose></include>
     <include><name>shelf_L1_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-17.5 -5 0 0 0 1.57</pose></include>
-    <include><name>shelf_L1_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-16.5 5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_L1_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-16.5 0 0 0 0 -1.57</pose></include>
-    <include><name>shelf_L1_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-16.5 -5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_L2_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-13.5 5 0 0 0 1.57</pose></include>
-    <include><name>shelf_L2_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-13.5 0 0 0 0 1.57</pose></include>
-    <include><name>shelf_L2_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-13.5 -5 0 0 0 1.57</pose></include>
-    <include><name>shelf_L2_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.5 5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_L2_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.5 0 0 0 0 -1.57</pose></include>
-    <include><name>shelf_L2_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.5 -5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_L3_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-9.5 5 0 0 0 1.57</pose></include>
-    <include><name>shelf_L3_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-9.5 0 0 0 0 1.57</pose></include>
+    <include><name>shelf_L1_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-15.7 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L1_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-15.7 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L1_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-15.7 -5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L2_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.7 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L2_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.7 0 0 0 0 1.57</pose></include>
+    <include><name>shelf_L2_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.7 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L2_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-10.9 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L2_G</name><uri>https...://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-10.9 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L2_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-10.9 -5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L3_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-7.9 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L3_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-7.9 0 0 0 0 1.57</pose></include>
     <!-- *** FIX 1: Corrected 'https::/' typo *** -->
-    <include><name>shelf_L3_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-9.5 -5 0 0 0 1.57</pose></include>
-    <include><name>shelf_L3_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-8.5 5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_L3_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-8.5 0 0 0 0 -1.57</pose></include>
-    <include><name>shelf_L3_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-8.5 -5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_R1_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>8.5 5 0 0 0 1.57</pose></include>
-    <include><name>shelf_R1_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>8.5 0 0 0 0 1.57</pose></include>
-    <include><name>shelf_R1_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>8.5 -5 0 0 0 1.57</pose></include>
-    <include><name>shelf_R1_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>9.5 5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_R1_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>9.5 0 0 0 0 -1.57</pose></include>
-    <include><name>shelf_R1_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>9.5 -5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_R2_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>12.5 5 0 0 0 1.57</pose></include>
-    <include><name>shelf_R2_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>12.5 0 0 0 0 1.57</pose></include>
-    <include><name>shelf_R2_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>12.5 -5 0 0 0 1.57</pose></include>
-    <include><name>shelf_R2_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>13.5 5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_R2_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>13.5 0 0 0 0 -1.57</pose></include>
-    <include><name>shelf_R2_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>13.5 -5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_R3_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>16.5 5 0 0 0 1.57</pose></include>
-    <include><name>shelf_R3_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>16.5 0 0 0 0 1.57</pose></include>
-    <include><name>shelf_R3_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>16.5 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L3_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-7.9 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_L3_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-6.1 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L3_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-6.1 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L3_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-6.1 -5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R1_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>6.1 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R1_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>6.1 0 0 0 0 1.57</pose></include>
+    <include><name>shelf_R1_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>6.1 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R1_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>7.9 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R1_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>7.9 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R1_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>7.9 -5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R2_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>10.9 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R2_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>10.9 0 0 0 0 1.57</pose></include>
+    <include><name>shelf_R2_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>10.9 -5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R2_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>12.7 5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R2_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>12.7 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R2_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>12.7 -5 0 0 0 -1.57</pose></include>
+    <include><name>shelf_R3_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>15.7 5 0 0 0 1.57</pose></include>
+    <include><name>shelf_R3_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>15.7 0 0 0 0 1.57</pose></include>
+    <include><name>shelf_R3_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>15.7 -5 0 0 0 1.57</pose></include>
     <include><name>shelf_R3_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>17.5 5 0 0 0 -1.57</pose></include>
     <include><name>shelf_R3_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>17.5 0 0 0 0 -1.57</pose></include>
     <include><name>shelf_R3_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>17.5 -5 0 0 0 -1.57</pose></include>
@@ -331,7 +539,7 @@
       <static>true</static>
       <pose>11 -12 4 0 0.785 1.57</pose>
       <include>
-        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <uri>httpsD://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
       </include>
     </model>
