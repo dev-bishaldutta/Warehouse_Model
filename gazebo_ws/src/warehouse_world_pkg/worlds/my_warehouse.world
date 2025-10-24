@@ -1,19 +1,16 @@
 <?xml version="1.0"?>
 <sdf version="1.10">
-  <world name="Advanced_Robotic_Warehouse">
+  <world name="Advanced_Robotic_Warehouse_v7">
 
     <!-- 
       =========================================================================
-      === UPDATED WORLD: V5 - Removed Invalid Gables ==========================
+      === UPDATED WORLD: V7 - Added Custom TV Displays ========================
       =========================================================================
-      * Confirmed N-S roof peak (slopes in X).
-      * Confirmed N/S walls are the "gable end" walls.
-      * Removed the invalid <mesh> models ("east_gable", "west_gable") 
-        which were causing the world to fail to load.
-      * All 4 walls are now 5m high. This removes the "wall poking
-        through" issue and all loading errors. This will leave a
-        triangular gap on the N/S ends, which is the correct
-        behavior without using external mesh files.
+      * Added two large (3x 65in scale) TV display models to the west and 
+        south walls.
+      * These are defined as new models (not <include>) to allow for
+        custom texture scripts, as requested.
+      * See comments at the end of the file for custom image paths.
       =========================================================================
     -->
 
@@ -270,18 +267,18 @@
     
     <!-- === END LFR PATHS === -->
 
-    <!-- Walls (All 5m high) -->
-    <model name="north_wall"><static>true</static><pose>0 15 2.5 0 0 0</pose><link name="link"><collision name="collision"><geometry><box><size>40 0.5 5</size></box></geometry></collision><visual name="visual"><geometry><box><size>40 0.5 5</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
-    <model name="south_wall"><static>true</static><pose>0 -15 2.5 0 0 0</pose><link name="link"><collision name="collision"><geometry><box><size>40 0.5 5</size></box></geometry></collision><visual name="visual"><geometry><box><size>40 0.5 5</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
-    <model name="east_wall"><static>true</static><pose>20 0 2.5 0 0 1.57</pose><link name="link"><collision name="collision"><geometry><box><size>30 0.5 5</size></box></geometry></collision><visual name="visual"><geometry><box><size>30 0.5 5</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
-    <model name="west_wall"><static>true</static><pose>-20 0 2.5 0 0 1.57</pose><link name="link"><collision name="collision"><geometry><box><size>30 0.5 5</size></box></geometry></collision><visual name="visual"><geometry><box><size>30 0.5 5</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
+    <!-- Walls (All 6m high) -->
+    <model name="north_wall"><static>true</static><pose>0 15 3.0 0 0 0</pose><link name="link"><collision name="collision"><geometry><box><size>40 0.5 6</size></box></geometry></collision><visual name="visual"><geometry><box><size>40 0.5 6</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
+    <model name="south_wall"><static>true</static><pose>0 -15 3.0 0 0 0</pose><link name="link"><collision name="collision"><geometry><box><size>40 0.5 6</size></box></geometry></collision><visual name="visual"><geometry><box><size>40 0.5 6</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
+    <model name="east_wall"><static>true</static><pose>20 0 3.0 0 0 1.57</pose><link name="link"><collision name="collision"><geometry><box><size>30 0.5 6</size></box></geometry></collision><visual name="visual"><geometry><box><size>30 0.5 6</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
+    <model name="west_wall"><static>true</static><pose>-20 0 3.0 0 0 1.57</pose><link name="link"><collision name="collision"><geometry><box><size>30 0.5 6</size></box></geometry></collision><visual name="visual"><geometry><box><size>30 0.5 6</size></box></geometry><material><ambient>0.7 0.7 0.6 1</ambient><diffuse>0.7 0.7 0.6 1</diffuse></material></visual></link></model>
 
 
-    <!-- Sloped Roof Panels (White) - Peak runs N-S (along Y-axis) -->
+    <!-- Sloped Roof Panels (White) - Raised 1m -->
     <model name="roof_slope_east"> 
       <static>true</static>
-      <!-- Panel covering positive X side -->
-      <pose>10 0 6 0 0.0997 0</pose> 
+      <!-- Panel covering positive X side. Center at z=7 -->
+      <pose>10 0 7 0 0.0997 0</pose> 
       <link name="link">
         <collision name="collision">
           <geometry><box><size>20.1 30 0.1</size></box></geometry> 
@@ -294,8 +291,8 @@
     </model>
     <model name="roof_slope_west"> 
       <static>true</static>
-      <!-- Panel covering negative X side -->
-      <pose>-10 0 6 0 -0.0997 0</pose>
+      <!-- Panel covering negative X side. Center at z=7 -->
+      <pose>-10 0 7 0 -0.0997 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry><box><size>20.1 30 0.1</size></box></geometry>
@@ -306,11 +303,6 @@
         </visual>
       </link>
     </model>
-
-    <!-- *** REMOVED INVALID GABLE MODELS *** -->
-    <!-- The "west_gable" and "east_gable" models defined with <mesh> 
-         were invalid SDF and caused the world to fail. They have been deleted.
-         All walls are now 5m, matching the roof eaves. -->
 
 
     <!-- === PART 1: SHELF SECTION (6 Rows) === -->
@@ -324,14 +316,13 @@
     <include><name>shelf_L2_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.7 0 0 0 0 1.57</pose></include>
     <include><name>shelf_L2_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-12.7 -5 0 0 0 1.57</pose></include>
     <include><name>shelf_L2_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-10.9 5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_L2_G</name><uri>https...://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-10.9 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L2_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-10.9 0 0 0 0 -1.57</pose></include>
     <include><name>shelf_L2_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-10.9 -5 0 0 0 -1.57</pose></include>
     <include><name>shelf_L3_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-7.9 5 0 0 0 1.57</pose></include>
     <include><name>shelf_L3_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-7.9 0 0 0 0 1.57</pose></include>
-    <!-- *** FIX 1: Corrected 'https::/' typo *** -->
     <include><name>shelf_L3_C</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-7.9 -5 0 0 0 1.57</pose></include>
     <include><name>shelf_L3_F</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-6.1 5 0 0 0 -1.57</pose></include>
-    <include><name>shelf_L3_G</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-6.1 0 0 0 0 -1.57</pose></include>
+    <include><name>shelf_L3_G</name><uri>httpsf://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-6.1 0 0 0 0 -1.57</pose></include>
     <include><name>shelf_L3_H</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>-6.1 -5 0 0 0 -1.57</pose></include>
     <include><name>shelf_R1_A</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>6.1 5 0 0 0 1.57</pose></include>
     <include><name>shelf_R1_B</name><uri>https://fuel.gazebosim.org/1.0/MovAi/models/shelf</uri><pose>6.1 0 0 0 0 1.57</pose></include>
@@ -356,18 +347,40 @@
     <include>
       <name>forklift_1</name>
       <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Forklift</uri>
-      <pose>0 -10 0 0 0 -1.57</pose>
+      <pose>5 -10 0 0 0 -1.57</pose>
     </include>
     <include>
       <name>forklift_parked_1</name>
       <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Forklift</uri>
+      <!-- Forklift 1 is at X=-5, Y=12 -->
       <pose>-5 12 0 0 0 0</pose>
     </include>
     <include>
       <name>forklift_parked_2</name>
       <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Forklift</uri>
+      <!-- Forklift 2 is at X=5, Y=12 -->
       <pose>5 12 0 0 0 3.14</pose>
+      
     </include>
+
+    <!-- === UPDATED: Office Area (Relocated and Aligned) === -->
+    <include>
+      <name>office_desk_1</name>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Desk</uri>
+      
+      <pose>0 11 0 0 0 1.570</pose>
+      
+      <scale>1.5 1.5 1.5</scale> 
+    </include>
+  
+    <include>
+      <name>office_chair_1</name>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Office Chair</uri>
+      
+      <pose>0 12 0 0 0 3.14</pose> 
+    </include>
+
+    <!-- === Conveyor & Pallet Area === -->
     <include>
         <name>conveyor_1</name>
         <uri>https://fuel.gazebosim.org/1.0/Open-RMF/models/DeliveryRobotWithConveyor</uri>
@@ -396,10 +409,10 @@
     
     <!-- === 5. CAMERA SYSTEM === -->
     
-    <!-- Wall Cameras (8) - Adjusted Z=4.95m (under eaves) -->
+    <!-- Wall Cameras (8) - Raised to Z=5.95m (under new eaves) -->
     <model name='cam_W_N'>
       <static>true</static>
-      <pose>-19.75 10 4.95 0 0.785 -1.57</pose>
+      <pose>-19.75 10 5.95 0 0.785 -1.57</pose>
       <include>
         <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
@@ -407,7 +420,7 @@
     </model>
     <model name='cam_W_S'>
       <static>true</static>
-      <pose>-19.75 -10 4.95 0 0.785 -1.57</pose>
+      <pose>-19.75 -10 5.95 0 0.785 -1.57</pose>
       <include>
         <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
@@ -415,7 +428,7 @@
     </model>
     <model name='cam_E_N'>
       <static>true</static>
-      <pose>19.75 10 4.95 0 0.785 1.57</pose>
+      <pose>19.75 10 5.95 0 0.785 1.57</pose>
       <include>
         <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
@@ -423,7 +436,7 @@
     </model>
     <model name='cam_E_S'>
       <static>true</static>
-      <pose>19.75 -10 4.95 0 0.785 1.57</pose>
+      <pose>19.75 -10 5.95 0 0.785 1.57</pose>
       <include>
         <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
@@ -431,7 +444,7 @@
     </model>
     <model name='cam_N_W'>
       <static>true</static>
-      <pose>-15 14.75 4.95 0 0.785 3.14</pose>
+      <pose>-15 14.75 5.95 0 0.785 3.14</pose>
       <include>
         <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
@@ -439,7 +452,7 @@
     </model>
     <model name='cam_N_E'>
       <static>true</static>
-      <pose>15 14.75 4.95 0 0.785 3.14</pose>
+      <pose>15 14.75 5.95 0 0.785 3.14</pose>
       <include>
         <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
@@ -447,7 +460,7 @@
     </model>
     <model name='cam_S_W'>
       <static>true</static>
-      <pose>-15 -14.75 4.95 0 0.785 0</pose>
+      <pose>-15 -14.75 5.95 0 0.785 0</pose>
       <include>
         <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
@@ -455,7 +468,7 @@
     </model>
     <model name='cam_S_E'>
       <static>true</static>
-      <pose>15 -14.75 4.95 0 0.785 0</pose>
+      <pose>15 -14.75 5.95 0 0.785 0</pose>
       <include>
         <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
@@ -539,7 +552,7 @@
       <static>true</static>
       <pose>11 -12 4 0 0.785 1.57</pose>
       <include>
-        <uri>httpsD://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
+        <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
       </include>
     </model>
@@ -570,14 +583,13 @@
     <model name='cam_Cen_S'>
       <static>true</static>
       <pose>0 -12 4 0 0.785 -1.57</pose>
-      <!-- *** FIX 2: Corrected 'RGBD%2D%20Camera' typo *** -->
       <include>
         <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
       </include>
     </model>
     
-    <!-- Overhead Cameras (6) -->
+    <!-- Overhead Cameras (6) - Z=6.0m (now at eave height, but clear of roof) -->
     <model name='cam_OH_1'>
       <static>true</static>
       <pose>-10 8 6.0 0 1.57 0</pose>
@@ -597,7 +609,6 @@
     <model name='cam_OH_3'>
       <static>true</static>
       <pose>-10 0 6.0 0 1.57 0</pose>
-      <!-- *** FIX 3: Corrected '1.CSS0' typo *** -->
       <include>
         <uri>https://fuel.gazebosim.org/1.0/abmohit/models/RGBD%20Camera</uri>
         <static>true</static>
@@ -628,5 +639,96 @@
       </include>
     </model>
     
+
+    <!-- === 6. CUSTOM TELEVISION DISPLAYS === -->
+
+    <!-- 
+      CUSTOM TV 1 (West Wall)
+      This model is a simple box scaled 3x (approx. 4.35m wide x 2.49m high).
+      We define it as a new model so we can apply a custom picture script, 
+      which isn't possible when <include>-ing the 'tv_65in_emissive' model.
+    -->
+    <model name="custom_tv_west">
+      <static>true</static>
+      <!-- Placed on the inner face of the west wall (at x=-19.75), centered at y=0, z=3.0. -->
+      <!-- Rotated 90 deg (1.5707 rad) to align width with global Y-axis. -->
+      <!-- Back face is at x=-19.75, so model center is at x=-19.675 -->
+      <pose>-19.675 0 3.0 0 0 1.5707</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <!-- Size (Local X, Y, Z) = (Width, Depth, Height) -->
+            <box><size>4.35 0.15 2.49</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <!-- Size matches collision -->
+            <box><size>4.35 0.15 2.49</size></box>
+          </geometry>
+          <material>
+            <script>
+              <!-- 
+                *** YOUR CUSTOM IMAGE LOCATION 1 ***
+                This is the "location" you asked for.
+                Place your custom image (e.g., custom_west.png) 
+                in a path that Gazebo can find (e.g., in a /materials/textures 
+                folder relative to this world or in a custom model path).
+                Then, update this URI to point to it.
+                Example: file://media/materials/textures/custom_west.png
+              -->
+              <uri>model://warehouse_ground/materials/textures/images.png</uri>
+              <name>Custom/ScreenWest</name>
+            </script>
+            <!-- Make the screen glow slightly so it looks active -->
+            <emissive>0.5 0.5 0.5 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <!-- 
+      CUSTOM TV 2 (South Wall)
+      This model is a simple box scaled 3x (approx. 4.35m wide x 2.49m high).
+    -->
+    <model name="custom_tv_south">
+      <static>true</static>
+      <!-- Placed on the inner face of the south wall (at y=-14.75), centered at x=0, z=3.0. -->
+      <!-- No rotation needed. -->
+      <!-- Back face is at y=-14.75, so model center is at y=-14.675 -->
+      <pose>0 -14.675 3.0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <!-- Size (Local X, Y, Z) = (Width, Depth, Height) -->
+            <box><size>4.35 0.15 2.49</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <!-- Size matches collision -->
+            <box><size>4.35 0.15 2.49</size></box>
+          </geometry>
+          <material>
+            <script>
+              <!-- 
+                *** YOUR CUSTOM IMAGE LOCATION 2 ***
+                This is the "location" you asked for.
+                Place your custom image (e.g., custom_south.png) 
+                in a path that Gazebo can find (e.g., in a /materials/textures 
+                folder relative to this world or in a custom model path).
+                Then, update this URI to point to it.
+                Example: file://media/materials/textures/custom_south.png
+              -->
+              <uri>model://warehouse_ground/materials/textures/images.png</uri>
+              <name>Custom/ScreenSouth</name>
+            </script>
+            <!-- Make the screen glow slightly so it looks active -->
+            <emissive>0.5 0.5 0.5 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+
   </world>
 </sdf>
